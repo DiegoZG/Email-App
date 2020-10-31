@@ -10,21 +10,37 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate')
 
 module.exports = app => {
 
-    app.get('/api/surveys/thanks', (req,res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req,res) => {
         res.send('Thanks for voting!')
     })
 
     app.post('/api/surveys/webhooks', (req, res) => {
-        const events = _.map(req.body, ({email, url}) => {
+        const p = new Path('/api/surveys/:surveyId/:choice');
+        _.chain(req.body)
+         .map( ({email, url}) => {
             const pathname = new URL(url).pathname // -> gets only the pathname in the url without the domain
-            const p = new Path('/api/surveys/:surveyId/:choice');
             const match = p.test(pathname);
             if(match){
                 return { email, surveyId: match.surveyId, choice: match.choice }
             }
-        });
+        })
+        .compact() // --> no undefined elements
+        .uniqBy('email', 'surveyId') // -> make sure to never have with a duplicate email or survey id
+        .each( ({ surveyId, email, choice }) => {
+            Survey.updateOne({
+                _id: surveyId,
+                recipients: {
+                    $elemMatch: { email: email, responded: false}
+                }
+            },{
+                $inc: { [choice]: 1},
+                $set: { 'recipients.$.responded': true },
+                lastResponded: new Date()
+            }).exec();
+        })
+        .value(); //--> return value
 
-        console.log(events)
+        res.send({});
     });
 
 
