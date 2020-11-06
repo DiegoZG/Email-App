@@ -106,15 +106,14 @@ class SurveyList extends Component {
 					<Card className="navbar-colors" style={{ marginBottom: '20px' }}>
 						<CardBody>
 							<CardTitle className="survey-title">{survey.title}</CardTitle>
-							<Button
-								onClick={() => {
-									this.props.deleteSurvey(survey._id, this.props.history);
-									window.location.reload();
+							<Button onClick={() => {
+								   this.props.deleteSurvey(survey._id)
+								   window.location.reload();
 								}}
 								color="danger"
-								style={{borderRadius: '50%', position: 'absolute', top: '6px', right: '3px', width: '30px', height: '30px'}}
+								style={{borderRadius: '50%', position: 'absolute', top: '6px', right: '6px', width: '30px', height: '30px'}}
 							>
-							<i className="material-icons" style={{fontSize: '18px', marginLeft: '-7px'}}>close</i>
+							<i className="material-icons" style={{fontSize: '18px', marginLeft: '-7px', marginTop: '-4px'}}>close</i>
 							</Button>
 							<CardSubtitle className="survey-subtitle">{survey.body}</CardSubtitle>
 							<CardText style={{ float: 'right' }} className="survey-sent">

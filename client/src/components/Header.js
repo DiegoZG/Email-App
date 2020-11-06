@@ -21,7 +21,7 @@ class Header extends Component {
     }
     render() {
         return (
-            <nav class="red darken-1">
+            <nav className="red darken-1">
                 <div className="nav-wrapper">
                 
                     <Link 
