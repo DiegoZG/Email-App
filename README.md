@@ -5,3 +5,6 @@ Emaily is a pay-as-you-go service, where one credit can send out one batch of su
 You can run the application for free by following the trial payment steps below.
 
 
+Usage
+To access the application, click this link. It is currently being hosted on Heroku's free plan, so it may take a few seconds to load up on first launch, so please be patient while it loads.
+
